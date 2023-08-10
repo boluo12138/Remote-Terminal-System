@@ -1,0 +1,46 @@
+server:
+  port: 9999
+
+#datasource:
+#  name: shixi
+#  url: jdbc:mysql://localhost:3306/shixi?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&useSSL=false&allowPublicKeyRetrieval=true
+#  username: root
+#  password: 123456
+#  driver: com.mysql.cj.jdbc.Driver
+#
+spring:
+  datasource:
+    name: xdb
+    url: jdbc:mysql://localhost:3306/xdb?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&useSSL=false&allowPublicKeyRetrieval=true
+    username: root
+    password: 123456
+    driver: com.mysql.cj.jdbc.Driver
+
+  redis:
+    port: 6379
+    host: localhost
+
+  mail:
+    username: 2982681306@qq.com #申请服务的邮箱，也就是发送邮件的邮箱
+    password: virxuladxmjtdgfc #刚才申请服务产生的授权码
+    host: smtp.qq.com  #默认
+    default-encoding: UTF-8  #默认
+    properties: #默认
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+            required: true
+
+logging:
+  level:
+    com.wzu: debug
+
+mybatis-plus:
+  global-config:
+    db-config:
+      logic-delete-field: deleted
+      logic-not-delete-value: 0
+      logic-delete-value: 1
+  type-aliases-package: com.wzu.*.entity
