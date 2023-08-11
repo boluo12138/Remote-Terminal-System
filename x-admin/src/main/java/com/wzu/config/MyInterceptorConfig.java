@@ -27,8 +27,11 @@ public class MyInterceptorConfig implements WebMvcConfigurer {
                         "/v3/**",
                         "/user/register",
                         "/user/sendEmail",
+                        //使用postman来测试接口，
                         "/user/userInfo",
-                        "/user/password"
+                        "/user/password",
+                        "/conv/**",
+                        "/log/**"
                 );
     }
 }

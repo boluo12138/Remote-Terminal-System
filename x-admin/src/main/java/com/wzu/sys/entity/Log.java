@@ -15,7 +15,7 @@ import java.io.Serializable;
 @AllArgsConstructor
 @TableName("x_log")
 @ToString
-public class Log implements Serializable {
+public class Log  extends PagePara implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
