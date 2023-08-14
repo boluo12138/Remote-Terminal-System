@@ -1,7 +1,9 @@
 package com.wzu.sys.service;
 
+import com.wzu.common.vo.Result;
 import com.wzu.sys.entity.User;
 import com.baomidou.mybatisplus.extension.service.IService;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.Map;
 
@@ -30,4 +32,6 @@ public interface IUserService extends IService<User> {
     void deleteUserById(Integer id);
 
     Map<String, Object> updatePassword(String token, String username, String oldPassword, String newPassword);
+    Result<User> register(User user);
+
 }

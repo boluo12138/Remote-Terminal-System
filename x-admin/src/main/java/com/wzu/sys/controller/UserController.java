@@ -20,6 +20,7 @@ import org.springframework.util.DigestUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -154,27 +155,12 @@ public class UserController {
     }
 
 
-    @Autowired
-    UserMapper mapper;
-
+//    @Autowired
+//    UserMapper mapper;
     //注册
     @PostMapping("/register")
     public Result<User> register(@RequestBody User user) {
-        //从redis中获取code中判断验证码是否正确
-        String code = redisTemplate.opsForValue().get(user.getEmail());
-        QueryWrapper<User> wrapper = new QueryWrapper<>();
-        wrapper.eq("username", user.getUsername());
-        User u = mapper.selectOne(wrapper);
-        if (u != null) {
-            return Result.fail("用户已经存在");
-        }
-        if (!user.getCode().equals(code)) {
-            return Result.fail("验证码错误");
-        }
-        //md5加密
-        user.setPassword(DigestUtils.md5DigestAsHex(user.getPassword().getBytes()));
-        mapper.insert(user);
-        return Result.success(mapper.selectOne(wrapper));
+        return userService.register(user);
     }
 
 
