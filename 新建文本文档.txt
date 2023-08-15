@@ -1,0 +1,4 @@
+在跑DBMS-DXC和Remote两个项目vue时
+在输入 npm run dev前
+
+$env:NODE_OPTIONS="--openssl-legacy-provider"

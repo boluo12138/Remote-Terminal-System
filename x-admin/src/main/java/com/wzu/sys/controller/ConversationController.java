@@ -20,6 +20,12 @@ public class ConversationController {
     @Autowired
     private IConversationService conversationService;
 
+    @GetMapping("/getList")
+    public Result<?> getList() {
+        System.out.println(conversationService.list());
+        return Result.success(conversationService.list(),"获取所有会话信息成功");
+    }
+
     @PostMapping("/list")
     public Result<Page> getList(@RequestBody Conversation conv) {
 
