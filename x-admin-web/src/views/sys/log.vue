@@ -74,7 +74,7 @@
           >提 交</el-button
         >
         <el-button v-else type="primary" @click="submit">保 存</el-button>
-        <el-button @click="cancel_one('form')">取 消</el-button>
+        <el-button @click="handleClose">取 消</el-button>
       </span>
     </el-dialog>
 
@@ -155,6 +155,7 @@ export default {
         pageNum: 1,
         pageSize: 10,
       },
+      copyForm:{},
       //添加编辑表单参数
       form: {
         name: "",
@@ -169,6 +170,7 @@ export default {
     };
   },
   mounted() {
+    this.copyForm = JSON.parse(JSON.stringify(this.form));
     this.getLogList();
   },
   methods: {
@@ -191,30 +193,10 @@ export default {
           });
         });
     },
-    //编辑对话框 保存按钮
-    save(formName) {
-      this.$refs.form.validate((valid) => {
-        if (valid) {
-          //后续对表单处理
-          console.log(JSON.stringify(this.form));
-          // console.log(this.form.id);
-          let index = this.form.id - 1;
-          console.log(this.tableData[index]);
-          this.tableData[index].name = this.form.name;
-          this.tableData[index].host = this.form.host;
-          this.tableData[index].port = this.form.port;
-          this.tableData[index].userName = this.form.userName;
-          // console.log(this.form);
-          // dataApi.addData(this.form).then((res) => {
-          //     console.log(res);
-          //   })
-          //   .catch((err) => {
-          //     console.log(err);
-          //   });
-          // //关闭弹窗并重置表单
-          this.cancel_one(formName);
-        }
-      });
+    //取消清空表单
+    handleClose() {
+      this.form = JSON.parse(JSON.stringify(this.copyForm));
+      this.dialogVisible = false;
     },
     //查询
     onSubmit() {
@@ -226,13 +208,7 @@ export default {
       this.$refs[formName].resetFields();
       this.getLogList();
     },
-    handleClose(done) {
-      this.$confirm("确认关闭？")
-        .then((_) => {
-          done();
-        })
-        .catch((_) => {});
-    },
+
     //添加编辑对话框
     openDialog1(row) {
       if (row == null) {
@@ -261,21 +237,8 @@ export default {
             res = await logApi.updateLog(this.form);
           }
           this.MenuInfo(res);
-          // dataApi.addData(this.form).then((res) => {
-          //     console.log(res);
-          //   })
-          //   .catch((err) => {
-          //     console.log(err);
-          //   });
-          // //关闭弹窗并重置表单
-          // this.cancel_one(formName);
         }
       });
-    },
-    //添加编辑对话框 取消按钮
-    cancel_one(formName) {
-      this.dialogVisible = false;
-      this.$refs[formName].resetFields();
     },
     //分页
     handleSizeChange(pageSize) {
@@ -314,7 +277,7 @@ export default {
         });
         this.getLogList();
         // //关闭弹窗并重置表单
-        this.cancel_one(this.form);
+        this.handleClose();
       } else {
         this.$message({
           message: res.message,

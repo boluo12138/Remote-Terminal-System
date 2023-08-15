@@ -63,7 +63,7 @@
           >提 交</el-button
         >
         <el-button v-else type="primary" @click="submit">保 存</el-button>
-        <el-button @click="cancel_one('form')">取 消</el-button>
+        <el-button @click="handleClose">取 消</el-button>
       </span>
     </el-dialog>
 
@@ -137,6 +137,7 @@ export default {
         pageNum: 1,
         pageSize: 5,
       },
+      copyForm:{},
       //添加编辑表单参数
       form: {
         name: "",
@@ -145,38 +146,11 @@ export default {
         username: "",
         password: "",
       },
-      // tableData: [{
-      //   id:1,
-      //   name: 'xw服务器',
-      //   host: '10.18.60.12',
-      //   port: '22',
-      //   userName: 'root'
-      // },
-      //   {
-      //   id:2,
-      //   name: '111',
-      //   host: '111',
-      //   port: '22',
-      //   userName: '111'
-      // },
-      //   {
-      //   id:3,
-      //   name: '222',
-      //   host: '222',
-      //   port: '22',
-      //   userName: '222'
-      // },
-      //   {
-      //   id:4,
-      //   name: '222',
-      //   host: '222',
-      //   port: '22',
-      //   userName: '222'
-      // }]
       tableData: [],
     };
   },
   mounted() {
+    this.copyForm = JSON.parse(JSON.stringify(this.form));
     this.getConvList();
   },
   methods: {
@@ -199,32 +173,7 @@ export default {
           });
         });
     },
-    //编辑对话框 保存按钮
-    save(formName) {
-      console.log(this.$refs.dialog.title);
-      this.$refs.form.validate((valid) => {
-        if (valid) {
-          //后续对表单处理
-          console.log(this.form);
-          // console.log(this.form.id);
-          let index = this.form.id - 1;
-          console.log(this.tableData[index]);
-          this.tableData[index].name = this.form.name;
-          this.tableData[index].host = this.form.host;
-          this.tableData[index].port = this.form.port;
-          this.tableData[index].userName = this.form.userName;
-          // console.log(this.form);
-          // dataApi.addData(this.form).then((res) => {
-          //     console.log(res);
-          //   })
-          //   .catch((err) => {
-          //     console.log(err);
-          //   });
-          // //关闭弹窗并重置表单
-          this.cancel_one(formName);
-        }
-      });
-    },
+
     //查询
     onSubmit() {
       console.log(JSON.stringify(this.selectForm));
@@ -235,12 +184,9 @@ export default {
       this.$refs[formName].resetFields();
       this.getConvList();
     },
-    handleClose(done) {
-      this.$confirm("确认关闭？")
-        .then((_) => {
-          done();
-        })
-        .catch((_) => {});
+    handleClose() {
+      this.form = JSON.parse(JSON.stringify(this.copyForm));
+      this.dialogVisible = false;
     },
     //添加编辑对话框
     openDialog1(row) {
@@ -270,22 +216,10 @@ export default {
             res = await convApi.updateConv(this.form);
           }
           this.MenuInfo(res);
-          // dataApi.addData(this.form).then((res) => {
-          //     console.log(res);
-          //   })
-          //   .catch((err) => {
-          //     console.log(err);
-          //   });
-          // //关闭弹窗并重置表单
-          // this.cancel_one(formName);
         }
       });
     },
-    //添加编辑对话框 取消按钮
-    cancel_one(formName) {
-      this.dialogVisible = false;
-      this.$refs[formName].resetFields();
-    },
+
     //分页
     handleSizeChange(pageSize) {
       this.selectForm.pageSize = pageSize;
@@ -297,6 +231,7 @@ export default {
       this.getConvList();
       console.log(`当前页: ${this.currentPage}`);
     },
+    //发送请求
     async getConvList() {
       // console.log(this.selectForm);
       const res = await convApi.getConvList(this.selectForm);
@@ -315,6 +250,7 @@ export default {
       }
       // console.log(res)
     },
+    //显示信息
     MenuInfo(res) {
       console.log(res);
       if (res.code === 20000) {
@@ -324,7 +260,7 @@ export default {
         });
         this.getConvList();
         // //关闭弹窗并重置表单
-        this.cancel_one(this.form);
+        this.handleClose(this.form);
       } else {
         this.$message({
           message: res.message,

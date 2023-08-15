@@ -69,7 +69,7 @@
         <el-button @click="submit()" class="submit" type="primary"
           >保 存</el-button
         >
-        <el-button @click="cancel('form')">取 消</el-button>
+        <el-button @click="handleClose">取 消</el-button>
       </span>
     </el-dialog>
 
@@ -151,6 +151,7 @@ export default {
       selectedRowData: "",
       labelPosition: "right",
       dialogVisible: false,
+      copyForm:{},
       form: {
         parentId: "",
         title: "",
@@ -167,7 +168,7 @@ export default {
         type: [{ required: true, message: "请选择类型", trigger: "change" }],
         state: [{ required: true, message: "请选择状态", trigger: "change" }],
       },
-      title:"",
+      title: "",
       label: "",
       defaultProps: {
         children: "children",
@@ -176,6 +177,7 @@ export default {
     };
   },
   mounted() {
+    this.copyForm = JSON.parse(JSON.stringify(this.form));
     this.getAllMenu();
   },
   methods: {
@@ -201,13 +203,7 @@ export default {
     filterTag(value, row) {
       return row.state === value;
     },
-    handleClose(done) {
-      this.$confirm("确认关闭？")
-        .then((_) => {
-          done();
-        })
-        .catch((_) => {});
-    },
+
     submit() {
       console.log(this.$refs.dialog.title);
       this.$refs.form.validate(async (valid) => {
@@ -225,10 +221,12 @@ export default {
         }
       });
     },
-    cancel(formName) {
+    //取消清空表单
+    handleClose() {
+      this.form = JSON.parse(JSON.stringify(this.copyForm));
       this.dialogVisible = false;
-      this.$refs[formName].resetFields();
     },
+
     handleNodeClick(data) {
       // 判断下拉选择的是否是1级目录
       this.label = data.label;
