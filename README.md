@@ -4,7 +4,7 @@
 # 登录界面
 ![image](https://github.com/boluo12138/Remote-Terminal-System/assets/96605428/db6dca29-87e8-4b08-96f2-a7c0bab70259)
 
-# 注册界面
+# 注册界面（注册使用的是Redius注册的，发送验证码之前请开启Redius 安装连接参考这个 https://blog.csdn.net/weixin_43883917/article/details/114632709）
 ![image](https://github.com/boluo12138/Remote-Terminal-System/assets/96605428/553d5939-c876-4b20-9b55-974fb6776eb4)
 
 # 首页
