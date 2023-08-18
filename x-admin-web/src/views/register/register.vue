@@ -20,7 +20,7 @@
             size="medium"
             prefix-icon="el-icon-user"
             v-model="registerForm.username"
-            >123qwe</el-input
+            ></el-input
           >
         </el-form-item>
         <el-form-item prop="password">
@@ -30,7 +30,7 @@
             prefix-icon="el-icon-lock"
             show-password
             v-model="registerForm.password"
-            >@12345Qwe</el-input
+            ></el-input
           >
         </el-form-item>
         <el-form-item prop="confirmPassword">
@@ -40,7 +40,7 @@
             prefix-icon="el-icon-lock"
             show-password
             v-model="registerForm.confirmPassword"
-            >@12345Qwe</el-input
+            ></el-input
           >
         </el-form-item>
         <el-form-item prop="email">
@@ -49,7 +49,7 @@
             size="medium"
             prefix-icon="el-icon-message"
             v-model="registerForm.email"
-            >123@qq.com</el-input
+            ></el-input
           >
         </el-form-item>
 
@@ -99,7 +99,7 @@ export default {
   name: "Login",
   data() {
     return {
-      registerForm: {},
+      registerForm: {username:"zxb",password:"zxb123",confirmPassword:"zxb123",email:"2982681306@qq.com",code:""},
       rules: {
         username: [
           { required: true, message: "用户名不能为空", trigger: "blur" },
@@ -180,6 +180,7 @@ export default {
     async sendVerificationCode() {
       var res = await sendEmail({
         email: this.registerForm.email,
+        timeout:10000
       });
       console.log(res);
       if (res.code === 20000) {

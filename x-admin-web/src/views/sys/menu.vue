@@ -41,9 +41,9 @@
         <!-- 类型 -->
         <el-form-item label="类型" prop="type">
           <el-radio-group v-model="form.type">
-            <el-radio label="0"><el-tag>目录</el-tag></el-radio>
-            <el-radio label="1"><el-tag type="success">菜单</el-tag></el-radio>
-            <el-radio label="2"><el-tag type="info">按钮</el-tag></el-radio>
+            <el-radio :label="0"><el-tag>目录</el-tag></el-radio>
+            <el-radio :label="1"><el-tag type="success">菜单</el-tag></el-radio>
+            <el-radio :label="2"><el-tag type="info">按钮</el-tag></el-radio>
           </el-radio-group> </el-form-item
         ><br />
 
@@ -60,8 +60,8 @@
         <!-- 状态 -->
         <el-form-item label="状态" prop="hidden">
           <el-radio-group v-model="form.hidden">
-            <el-radio label="0"><el-tag type="success">正常</el-tag></el-radio>
-            <el-radio label="1"><el-tag type="danger">禁用</el-tag></el-radio>
+            <el-radio :label="0"><el-tag type="success">正常</el-tag></el-radio>
+            <el-radio :label="1"><el-tag type="danger">禁用</el-tag></el-radio>
           </el-radio-group>
         </el-form-item>
       </el-form>
@@ -145,13 +145,26 @@
 import menuApi from "@/api/menuManage";
 
 export default {
+  // 在Vue组件中定义计算属性
+  computed: {
+    typeLabel() {
+      if (this.form.type === 0) {
+        return "<el-tag>目录</el-tag>";
+      } else if (this.form.type === 1) {
+        return "<el-tag type='success'>菜单</el-tag>";
+      } else if (this.form.type === 2) {
+        return "<el-tag type='info'>按钮</el-tag>";
+      }
+      return "";
+    },
+  },
   data() {
     return {
       tableData: [],
       selectedRowData: "",
       labelPosition: "right",
       dialogVisible: false,
-      copyForm:{},
+      copyForm: {},
       form: {
         parentId: "",
         title: "",
