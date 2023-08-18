@@ -246,6 +246,8 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
         user.setPassword(DigestUtils.md5DigestAsHex(user.getPassword().getBytes()));
         user.setStatus(1);
         user.setCreateTime(LocalDateTime.now());
+        //这里设置姓名和用户名一直，否则会出现后端路由冲突的问题
+        user.setName(user.getUsername());
         this.baseMapper.insert(user);
         redisTemplate.delete(user.getEmail());
         userRoleMapper.insert(new UserRole(null,this.baseMapper.selectOne(wrapper).getId(),3));
