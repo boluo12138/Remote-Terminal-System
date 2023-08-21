@@ -110,8 +110,8 @@ export default {
       }
 
       const client = new OSS({
-        accessKeyId: "LTAI5tCGzWuX89hrkEHA4vXb",
-        accessKeySecret: "qmsrwBHFzWJo4mjfPvdzz9oLdlGMPS",
+        accessKeyId: "",  #阿里云accessKeyId
+        accessKeySecret: "", #阿里云accessKeySecret
         bucket: "boluo12138",
         region: "oss-cn-beijing",
         secure: true,
